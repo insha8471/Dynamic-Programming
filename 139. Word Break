@@ -1,0 +1,30 @@
+Approach : Recursion + Memoization
+Time complexity : O(n^3)
+Space complexit : O(n+m)
+
+class Solution {
+    Boolean[] memo;
+    public boolean helper(int idx, String s, Set<String> st){
+        if(idx == s.length()){
+            return true;
+        }
+
+        if(memo[idx] != null){
+            return memo[idx];
+        }
+
+        for(int i=idx+1;i<=s.length();i++){
+            String temp = s.substring(idx, i);
+            if(st.contains(temp) && helper(i,s,st)){
+                return memo[idx] = true;
+            }
+        }
+        return memo[idx] = false;
+    }
+    public boolean wordBreak(String s, List<String> wordDict) {
+        memo = new Boolean[s.length()];
+        Set<String> st = new HashSet<>();
+        return helper(0,s,new HashSet<String>(wordDict));
+
+    }
+}
