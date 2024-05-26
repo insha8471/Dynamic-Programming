@@ -1,0 +1,33 @@
+Time complexity : O(n)
+
+class Solution {
+    int M = 1000000007;
+    int[][][] t = new int[100001][2][3]; 
+    public int helper(int n, int absent, int late){
+        if(absent >= 2 || late >= 3){
+            return 0;
+        }
+        if(n == 0){
+            return 1;
+        }
+
+        if(t[n][absent][late] != -1){
+            return t[n][absent][late];
+        }
+
+        int A = helper(n-1, absent+1, 0) % M;
+        int L = helper(n-1,absent, late+1) % M;
+        int P = helper(n-1,absent, 0) % M;
+
+        return t[n][absent][late] = ((A+L)%M + P) % M;
+    }
+    public int checkRecord(int n) {
+        for(int i=0;i<100001;i++){
+            for(int j=0;j<2;j++){
+                Arrays.fill(t[i][j], -1);
+            }
+        }
+        return helper(n,0,0);
+
+    }
+}
